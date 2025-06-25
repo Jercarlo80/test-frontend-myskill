@@ -1,103 +1,179 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState, useEffect } from "react";
+import Button from "@/components/button";
+import BackgroundImage from "./backgroundImage";
+import ProfileImage from "./profileImage";
+import Profile from "./profile";
+import Portofolio from "./portofolio";
+import Suzy from "@/assets/suzy.jpg";
+import Background from "@/assets/bg_profile.jpg";
+
+interface PortfolioItem {
+  id: number;
+  title: string;
+  company: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
+export default function EditPage() {
+  const [backgroundImageFile, setBackgroundImageFile] = useState<File | null>(null);
+  const [backgroundPreviewUrl, setBackgroundPreviewUrl] = useState<string | null>(null);
+
+  const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+  const [profilePreviewUrl, setProfilePreviewUrl] = useState<string | null>(null);
+
+  const [portfolios, setPortfolios] = useState<PortfolioItem[]>([
+    {
+      id: 1,
+      title: "Front End Developer",
+      company: "MySkill",
+      startDate: "Januari 2023",
+      endDate: "Desember 2023",
+      description: "Deskripsi, lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
+    },
+  ]);
+
+  const [profileInfo, setProfileInfo] = useState({
+    nama: "Nama",
+    title: "Title",
+    deskripsi: "Deskripsi, lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
+  });
+
+  const handleProfileChange = (field: string, value: string) => {
+    setProfileInfo((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handlePortfolioChange = (id: number, field: string, value: string) => {
+    setPortfolios((prev) => prev.map((item) => (item.id === id ? { ...item, [field]: value } : item)));
+  };
+
+  const handleBackgroundChange = (file: File | null) => {
+    setBackgroundImageFile(file);
+  };
+
+  const handleProfileImageChange = (file: File | null) => {
+    setProfileImageFile(file);
+  };
+
+  useEffect(() => {
+    if (backgroundImageFile) {
+      const objectUrl = URL.createObjectURL(backgroundImageFile);
+      setBackgroundPreviewUrl(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
+    } else {
+      setBackgroundPreviewUrl(null);
+    }
+  }, [backgroundImageFile]);
+
+  useEffect(() => {
+    if (profileImageFile) {
+      const objectUrl = URL.createObjectURL(profileImageFile);
+      setProfilePreviewUrl(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
+    } else {
+      setProfilePreviewUrl(null);
+    }
+  }, [profileImageFile]);
+
+  const addPortfolio = () => {
+    const newPortfolio: PortfolioItem = {
+      id: portfolios.length + 1,
+      title: `Portfolio ${portfolios.length + 1}`,
+      company: "Perusahaan",
+      startDate: "Mulai",
+      endDate: "Selesai",
+      description: "Deskripsi portfolio baru",
+    };
+    setPortfolios([...portfolios, newPortfolio]);
+  };
+
+  const handlePortfolioDelete = (id: number) => {
+    setPortfolios((prev) => prev.filter((item) => item.id !== id));
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="flex flex-col lg:flex-row w-full min-h-screen bg-[#FAFAFA] p-4 lg:p-0">
+      <div className="w-full lg:w-1/2 lg:ml-[7rem] mt-10 lg:mt-[4.625rem] mb-[10rem]">
+        <div className="w-full max-w-[56.25rem] mx-auto flex flex-row justify-between items-center">
+          <h1 className="font-bold text-2xl">Editor</h1>
+          <Button
+            text="Simpan Perubahan"
+            styleButton="bg-[#919EAB3D] w-[12.5rem] h-[3rem] rounded-md"
+            styleText="text-[#919EABCC] text-sm font-bold flex justify-center items-center h-full"
+            onClick={() => console.log("Coba Sekarang clicked")}
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+
+        <div className="flex flex-col gap-6 items-center w-full max-w-[56.25rem] mt-10">
+          <BackgroundImage onBackgroundChange={handleBackgroundChange} />
+          <ProfileImage onProfileImageChange={handleProfileImageChange} />
+          <Profile onProfileChange={handleProfileChange} />
+
+          {portfolios.map((portfolio) => (
+            <Portofolio
+              key={portfolio.id}
+              portfolio={portfolio}
+              onChange={handlePortfolioChange}
+              onDelete={handlePortfolioDelete}
+            />
+          ))}
+
+          <Button
+            text="Tambah Portfolio"
+            styleButton="bg-[#919EAB3D] w-[12.5rem] h-[3rem] rounded-md"
+            styleText="text-[#919EABCC] text-sm font-bold flex justify-center items-center h-full"
+            onClick={addPortfolio}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+      </div>
+
+      <div className="hidden lg:block w-px h-[78.813rem] bg-[#D9D9D9] mx-8 mt-[3.938rem]" />
+
+      <div className="w-full lg:w-1/2 mt-10 lg:mt-[4.625rem] px-4 lg:px-0">
+        <h1 className="font-bold text-2xl">Preview</h1>
+        <div className="bg-white w-full max-w-[40.938rem] mt-10 rounded-xl overflow-hidden">
+          <div className="flex flex-col items-center w-full">
+            {backgroundImageFile?.type.startsWith("video/") ? (
+              <video src={backgroundPreviewUrl || ""} className="w-full h-60 object-cover" autoPlay loop muted />
+            ) : (
+              <img src={backgroundPreviewUrl || Background.src} alt="Background Preview" className="w-full h-60 object-cover" />
+            )}
+
+            <div className="w-full flex justify-center relative bottom-28">
+              {profileImageFile?.type.startsWith("video/") ? (
+                <video src={profilePreviewUrl || ""} className="w-40 h-40 rounded-full object-cover border-4 border-white" autoPlay loop muted />
+              ) : (
+                <img src={profilePreviewUrl || Suzy.src} alt="Profile Preview" className="w-40 h-40 rounded-full object-cover border-4 border-white" />
+              )}
+            </div>
+
+            <div className="flex flex-col items-center relative bottom-20">
+              <h1 className="text-xl font-bold">{profileInfo.nama}</h1>
+              <h2 className="text-base text-[#878787] font-bold">{profileInfo.title}</h2>
+              <p className="w-72 min-h-[3.75rem] text-xs text-center">{profileInfo.deskripsi}</p>
+            </div>
+
+            <div className="w-full flex flex-col items-center px-4">
+              <h1 className="w-full text-left font-bold text-base mb-4">Portfolio</h1>
+              {portfolios.map((portfolio) => (
+                <div key={portfolio.id} className="bg-white shadow-lg w-full max-w-[33.188rem] rounded-md mb-4 p-4">
+                  <h1 className="text-base font-medium">{portfolio.title}</h1>
+                  <h2 className="text-sm text-[#717984] font-medium">{portfolio.company}</h2>
+                  <div className="flex gap-2 text-sm text-[#717984] font-normal">
+                    <span>{portfolio.startDate}</span>
+                    <span>-</span>
+                    <span>{portfolio.endDate}</span>
+                  </div>
+                  <p className="text-sm mt-2 font-normal">{portfolio.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
