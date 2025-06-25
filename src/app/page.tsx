@@ -7,8 +7,8 @@ import BackgroundImage from "./backgroundImage";
 import ProfileImage from "./profileImage";
 import Profile from "./profile";
 import Portofolio from "./portofolio";
-import Suzy from "@/assets/suzy.jpg";
-import Background from "@/assets/bg_profile.jpg";
+import Suzy from "../../public/images/assets/suzy.jpg";
+import Background from "../../public/images/assets/bg_profile.jpg";
 
 interface PortfolioItem {
   id: number;
