@@ -8,6 +8,7 @@ import Profile from "./profile";
 import Portofolio from "./portofolio";
 import Suzy from "@/assets/suzy.jpg";
 import Background from "@/assets/bg_profile.jpg";
+import Image from "next/image";
 
 interface PortfolioItem {
   id: number;
@@ -139,14 +140,14 @@ export default function EditPage() {
             {backgroundImageFile?.type.startsWith("video/") ? (
               <video src={backgroundPreviewUrl || ""} className="w-full h-60 object-cover" autoPlay loop muted />
             ) : (
-              <img src={backgroundPreviewUrl || Background.src} alt="Background Preview" className="w-full h-60 object-cover" />
+              <Image src={backgroundPreviewUrl || Background.src} alt="Background Preview" className="w-full h-60 object-cover" />
             )}
 
             <div className="w-full flex justify-center relative bottom-28">
               {profileImageFile?.type.startsWith("video/") ? (
                 <video src={profilePreviewUrl || ""} className="w-40 h-40 rounded-full object-cover border-4 border-white" autoPlay loop muted />
               ) : (
-                <img src={profilePreviewUrl || Suzy.src} alt="Profile Preview" className="w-40 h-40 rounded-full object-cover border-4 border-white" />
+                <Image src={profilePreviewUrl || Suzy.src} alt="Profile Preview" className="w-40 h-40 rounded-full object-cover border-4 border-white" />
               )}
             </div>
 
