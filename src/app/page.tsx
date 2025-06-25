@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Button from "@/components/button";
 import BackgroundImage from "./backgroundImage";
 import ProfileImage from "./profileImage";
@@ -128,12 +129,10 @@ export default function EditPage() {
   const handleSaveToLocalStorage = () => {
     const dataToSave = {
       backgroundImage: backgroundPreviewUrl,
-      profileImage: profilePreviewUrl, 
+      profileImage: profilePreviewUrl,
       profileInfo,
       portfolios,
     };
-
-    localStorage.setItem("portfolioEditorData", JSON.stringify(dataToSave));
 
     try {
       localStorage.setItem("portfolioEditorData", JSON.stringify(dataToSave));
@@ -191,13 +190,25 @@ export default function EditPage() {
                 loop
                 muted
               />
-            ) : (
-              <img
-                src={backgroundPreviewUrl || Background.src}
+            ) : backgroundPreviewUrl ? (
+              <Image
+                src={backgroundPreviewUrl}
                 alt="Background Preview"
+                width={1280}
+                height={360}
+                className="w-full h-60 object-cover"
+                unoptimized
+              />
+            ) : (
+              <Image
+                src={Background.src}
+                alt="Default Background"
+                width={1280}
+                height={360}
                 className="w-full h-60 object-cover"
               />
             )}
+
             <div className="w-full flex justify-center relative bottom-28">
               {profileImageFile?.type?.startsWith("video/") ? (
                 <video
@@ -207,14 +218,26 @@ export default function EditPage() {
                   loop
                   muted
                 />
-              ) : (
-                <img
-                  src={profilePreviewUrl || Suzy.src}
+              ) : profilePreviewUrl ? (
+                <Image
+                  src={profilePreviewUrl}
                   alt="Profile Preview"
+                  width={160}
+                  height={160}
+                  className="w-40 h-40 rounded-full object-cover border-4 border-white"
+                  unoptimized
+                />
+              ) : (
+                <Image
+                  src={Suzy.src}
+                  alt="Default Profile"
+                  width={160}
+                  height={160}
                   className="w-40 h-40 rounded-full object-cover border-4 border-white"
                 />
               )}
             </div>
+
             <div className="flex flex-col items-center relative bottom-20">
               <h1 className="text-xl font-bold">{profileInfo.nama}</h1>
               <h2 className="text-base text-[#878787] font-bold">
