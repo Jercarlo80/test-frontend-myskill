@@ -30,7 +30,7 @@ export default function Profile({ onProfileChange }: ProfileProps) {
       className={`bg-white w-full max-w-[56.25rem] ${isMinimized ? "h-[5rem]" : "h-auto"} flex flex-col rounded-xl mt-6 p-4 transition-all duration-300`}
     >
       <div className="w-full flex flex-row justify-between items-center">
-        <h1 className="text-base sm:text-lg underline font-semibold ml-2 sm:ml-4">
+        <h1 className="text-base sm:text-lg underline font-semibold ml-2 sm:ml-2">
           Profile
         </h1>
         <button onClick={toggleMinimize}>

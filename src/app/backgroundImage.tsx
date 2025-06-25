@@ -1,4 +1,3 @@
-// Tambahkan state untuk toggle minimize
 import { useState, useRef, ChangeEvent, DragEvent } from "react";
 import { CiMinimize1 } from "react-icons/ci";
 import { MdOutlineAttachment } from "react-icons/md";
