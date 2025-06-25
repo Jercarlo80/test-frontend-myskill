@@ -20,17 +20,10 @@ interface PortfolioItem {
 }
 
 export default function EditPage() {
-  const [backgroundImageFile, setBackgroundImageFile] = useState<File | null>(
-    null
-  );
-  const [backgroundPreviewUrl, setBackgroundPreviewUrl] = useState<
-    string | null
-  >(null);
-
+  const [backgroundImageFile] = useState<File | null>(null);
+  const [backgroundPreviewUrl, setBackgroundPreviewUrl] = useState<string | null>(null);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
-  const [profilePreviewUrl, setProfilePreviewUrl] = useState<string | null>(
-    null
-  );
+  const [profilePreviewUrl, setProfilePreviewUrl] = useState<string | null>(null);
 
   const [portfolios, setPortfolios] = useState<PortfolioItem[]>([
     {
@@ -39,16 +32,14 @@ export default function EditPage() {
       company: "MySkill",
       startDate: "Januari 2023",
       endDate: "Desember 2023",
-      description:
-        "Deskripsi, lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
+      description: "Deskripsi, lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
     },
   ]);
 
   const [profileInfo, setProfileInfo] = useState({
     nama: "Nama",
     title: "Title",
-    deskripsi:
-      "Deskripsi, lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
+    deskripsi: "Deskripsi, lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
   });
 
   const handleProfileChange = (field: string, value: string) => {
@@ -76,16 +67,6 @@ export default function EditPage() {
   const handleProfileImageChange = (file: File | null) => {
     setProfileImageFile(file);
   };
-
-  useEffect(() => {
-    if (backgroundImageFile) {
-      const objectUrl = URL.createObjectURL(backgroundImageFile);
-      setBackgroundPreviewUrl(objectUrl);
-      return () => URL.revokeObjectURL(objectUrl);
-    } else {
-      setBackgroundPreviewUrl(null);
-    }
-  }, [backgroundImageFile]);
 
   useEffect(() => {
     if (profileImageFile) {
@@ -141,6 +122,7 @@ export default function EditPage() {
       console.error("Gagal menyimpan data ke localStorage:", error);
     }
   };
+
 
   return (
     <div className="flex flex-col lg:flex-row w-full min-h-screen bg-[#FAFAFA] p-4 lg:p-0">
