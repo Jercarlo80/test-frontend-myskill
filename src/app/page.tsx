@@ -274,7 +274,7 @@ export default function EditPage() {
                       {portfolio.company}
                     </h2>
                     <div className="flex gap-2 text-sm text-[#717984] font-normal">
-                      <span>{formatMonthYear(portfolio.startDate)}</span>nggunakan fungsi for
+                      <span>{formatMonthYear(portfolio.startDate)}</span>
                       <span>-</span>
                       <span>{formatMonthYear(portfolio.endDate)}</span>
                     </div>
