@@ -3,7 +3,6 @@ import InputField from "@/components/inputField";
 import { CiMinimize1 } from "react-icons/ci";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
-// Definisikan tipe portfolio
 interface PortfolioItem {
   id: number;
   title: string;
@@ -14,7 +13,7 @@ interface PortfolioItem {
 }
 
 interface PortfolioProps {
-  portfolio: PortfolioItem; // Gunakan tipe yang spesifik
+  portfolio: PortfolioItem;
   onChange: (id: number, field: string, value: string) => void;
   onDelete: (id: number) => void;
 }

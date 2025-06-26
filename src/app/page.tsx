@@ -42,6 +42,9 @@ export default function EditPage() {
     deskripsi: "Deskripsi, lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
   });
 
+  // Batas maksimal portfolio
+  const MAX_PORTFOLIOS = 10;
+
   const handleProfileChange = (field: string, value: string) => {
     setProfileInfo((prev) => ({ ...prev, [field]: value }));
   };
@@ -92,6 +95,12 @@ export default function EditPage() {
   }, []);
 
   const addPortfolio = () => {
+    // Cek apakah sudah mencapai batas maksimal
+    if (portfolios.length >= MAX_PORTFOLIOS) {
+      alert(`Maksimal hanya dapat menambahkan ${MAX_PORTFOLIOS} portfolio`);
+      return;
+    }
+
     const newPortfolio: PortfolioItem = {
       id: portfolios.length + 1,
       title: `Portfolio ${portfolios.length + 1}`,
@@ -153,9 +162,18 @@ export default function EditPage() {
 
           <Button
             text="Tambah Portfolio"
-            styleButton="bg-[#919EAB3D] w-[12.5rem] h-[3rem] rounded-md"
-            styleText="text-[#919EABCC] text-sm font-bold flex justify-center items-center h-full"
+            styleButton={`${
+              portfolios.length >= MAX_PORTFOLIOS
+                ? "bg-gray-200 cursor-not-allowed"
+                : "bg-[#919EAB3D]"
+            } w-[12.5rem] h-[3rem] rounded-md`}
+            styleText={`${
+              portfolios.length >= MAX_PORTFOLIOS
+                ? "text-gray-400"
+                : "text-[#919EABCC]"
+            } text-sm font-bold flex justify-center items-center h-full`}
             onClick={addPortfolio}
+            disabled={portfolios.length >= MAX_PORTFOLIOS}
           />
         </div>
       </div>
