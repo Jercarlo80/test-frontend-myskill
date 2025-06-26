@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Button from "@/components/button";
 import BackgroundImage from "./backgroundImage";
@@ -44,6 +44,9 @@ export default function EditPage() {
 
   // Batas maksimal portfolio
   const MAX_PORTFOLIOS = 10;
+
+  // Ref untuk container portfolio preview
+  const portfolioContainerRef = useRef<HTMLDivElement>(null);
 
   const handleProfileChange = (field: string, value: string) => {
     setProfileInfo((prev) => ({ ...prev, [field]: value }));
@@ -131,7 +134,6 @@ export default function EditPage() {
       console.error("Gagal menyimpan data ke localStorage:", error);
     }
   };
-
 
   return (
     <div className="flex flex-col lg:flex-row w-full min-h-screen bg-[#FAFAFA] p-4 lg:p-0">
@@ -248,29 +250,34 @@ export default function EditPage() {
               </p>
             </div>
 
-            <div className="w-full flex flex-col items-center px-4">
+            <div className="w-full flex flex-col items-center px-4 pb-4 ml-8">
               <h1 className="w-full text-left font-bold text-base mb-4">
                 Portfolio
               </h1>
-              {portfolios.map((portfolio) => (
-                <div
-                  key={portfolio.id}
-                  className="bg-white shadow-lg w-full max-w-[33.188rem] rounded-md mb-12 p-4"
-                >
-                  <h1 className="text-base font-medium">{portfolio.title}</h1>
-                  <h2 className="text-sm text-[#717984] font-medium">
-                    {portfolio.company}
-                  </h2>
-                  <div className="flex gap-2 text-sm text-[#717984] font-normal">
-                    <span>{portfolio.startDate}</span>
-                    <span>-</span>
-                    <span>{portfolio.endDate}</span>
+              <div 
+                ref={portfolioContainerRef}
+                className="w-full max-h-[25rem] overflow-y-auto custom-scrollbar"
+              >
+                {portfolios.map((portfolio) => (
+                  <div
+                    key={portfolio.id}
+                    className="bg-white shadow-lg w-full max-w-[33.188rem] rounded-md mb-4 p-4"
+                  >
+                    <h1 className="text-base font-medium">{portfolio.title}</h1>
+                    <h2 className="text-sm text-[#717984] font-medium">
+                      {portfolio.company}
+                    </h2>
+                    <div className="flex gap-2 text-sm text-[#717984] font-normal">
+                      <span>{portfolio.startDate}</span>
+                      <span>-</span>
+                      <span>{portfolio.endDate}</span>
+                    </div>
+                    <p className="text-sm mt-2 font-normal">
+                      {portfolio.description}
+                    </p>
                   </div>
-                  <p className="text-sm mt-2 font-normal">
-                    {portfolio.description}
-                  </p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
