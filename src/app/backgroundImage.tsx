@@ -6,7 +6,9 @@ interface BackgroundImageProps {
   onBackgroundChange: (file: File | null) => void;
 }
 
-export default function BackgroundImage({ onBackgroundChange }: BackgroundImageProps) {
+export default function BackgroundImage({
+  onBackgroundChange,
+}: BackgroundImageProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -60,13 +62,19 @@ export default function BackgroundImage({ onBackgroundChange }: BackgroundImageP
 
   return (
     <div
-      className={`bg-white w-full max-w-[56.25rem] ${isMinimized ? "h-[5rem]" : "h-auto"} flex flex-col rounded-xl mt-6 p-4 transition-all duration-300`}
+      className={`bg-white w-full max-w-[56.25rem] ${
+        isMinimized ? "h-[5rem]" : "h-auto"
+      } flex flex-col rounded-xl mt-6 p-4 transition-all duration-300`}
     >
       <div className="w-full flex flex-row justify-between items-center">
-        <h1 className="text-base sm:text-lg underline font-semibold">Background Image</h1>
+        <h1 className="text-base sm:text-lg underline font-semibold">
+          Background Image
+        </h1>
         <button onClick={toggleMinimize}>
           <CiMinimize1
-            className={`w-8 h-8 text-[#6C7074] ${isMinimized ? "rotate-180" : ""}`}
+            className={`w-8 h-8 text-[#6C7074] ${
+              isMinimized ? "rotate-180" : ""
+            }`}
           />
         </button>
       </div>
@@ -85,7 +93,8 @@ export default function BackgroundImage({ onBackgroundChange }: BackgroundImageP
           <div className="w-full h-full flex flex-col justify-center items-center gap-y-1 text-center px-2">
             <MdOutlineAttachment className="w-6 h-6" />
             <h1 className="underline text-[#6B6B6B] text-sm font-medium">
-              Drag and drop files, or <span className="text-[#0584F9]">Browse</span>
+              Drag and drop files, or{" "}
+              <span className="text-[#0584F9]">Browse</span>
             </h1>
             <h2 className="underline text-[#6B6B6B] text-xs font-normal">
               Support formats : png, jpg, jpeg, mp4.
@@ -96,7 +105,6 @@ export default function BackgroundImage({ onBackgroundChange }: BackgroundImageP
           </div>
         </button>
       )}
-
       <input
         type="file"
         ref={fileInputRef}

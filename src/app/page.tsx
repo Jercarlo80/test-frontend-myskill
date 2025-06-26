@@ -18,6 +18,21 @@ interface PortfolioItem {
   endDate: string;
   description: string;
 }
+function formatMonthYear(value: string) {
+  if (!value) return "";
+  const [year, month] = value.split("-");
+  const monthInt = parseInt(month, 10);
+  if (isNaN(monthInt) || monthInt < 1 || monthInt > 12) {
+    return value;
+  }
+
+  const monthNames = [
+    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+  ];
+
+  return `${monthNames[monthInt - 1]} ${year}`;
+}
 
 export default function EditPage() {
   const [backgroundImageFile] = useState<File | null>(null);
@@ -30,8 +45,8 @@ export default function EditPage() {
       id: 1,
       title: "Front End Developer",
       company: "MySkill",
-      startDate: "Januari 2023",
-      endDate: "Desember 2023",
+      startDate: "2023-01",
+      endDate: "2023-12", 
       description: "Deskripsi, lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
     },
   ]);
@@ -41,13 +56,8 @@ export default function EditPage() {
     title: "Title",
     deskripsi: "Deskripsi, lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
   });
-
-  // Batas maksimal portfolio
   const MAX_PORTFOLIOS = 10;
-
-  // Ref untuk container portfolio preview
   const portfolioContainerRef = useRef<HTMLDivElement>(null);
-
   const handleProfileChange = (field: string, value: string) => {
     setProfileInfo((prev) => ({ ...prev, [field]: value }));
   };
@@ -98,18 +108,16 @@ export default function EditPage() {
   }, []);
 
   const addPortfolio = () => {
-    // Cek apakah sudah mencapai batas maksimal
     if (portfolios.length >= MAX_PORTFOLIOS) {
       alert(`Maksimal hanya dapat menambahkan ${MAX_PORTFOLIOS} portfolio`);
       return;
     }
-
     const newPortfolio: PortfolioItem = {
       id: portfolios.length + 1,
       title: `Portfolio ${portfolios.length + 1}`,
       company: "Perusahaan",
-      startDate: "Mulai",
-      endDate: "Selesai",
+      startDate: "",
+      endDate: "", 
       description: "Deskripsi portfolio baru",
     };
     setPortfolios([...portfolios, newPortfolio]);
@@ -161,7 +169,6 @@ export default function EditPage() {
               onDelete={handlePortfolioDelete}
             />
           ))}
-
           <Button
             text="Tambah Portfolio"
             styleButton={`${
@@ -210,7 +217,6 @@ export default function EditPage() {
                 className="w-full h-60 object-cover"
               />
             )}
-
             <div className="w-full flex justify-center relative bottom-28">
               {profileImageFile?.type?.startsWith("video/") ? (
                 <video
@@ -268,9 +274,9 @@ export default function EditPage() {
                       {portfolio.company}
                     </h2>
                     <div className="flex gap-2 text-sm text-[#717984] font-normal">
-                      <span>{portfolio.startDate}</span>
+                      <span>{formatMonthYear(portfolio.startDate)}</span>nggunakan fungsi for
                       <span>-</span>
-                      <span>{portfolio.endDate}</span>
+                      <span>{formatMonthYear(portfolio.endDate)}</span>
                     </div>
                     <p className="text-sm mt-2 font-normal">
                       {portfolio.description}
